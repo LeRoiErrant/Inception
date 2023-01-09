@@ -1,0 +1,69 @@
+version: "3.7"
+services: 
+
+  db:
+    image: mariadb:10
+    #container_name: wp-60sec-db
+    environment:
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - docker_network
+    restart: always
+  
+  wordpress:
+    container_name: wordpress
+    #build: requirements/wordpress
+    #image: my_wordpress:test
+    image: wordpress:5-fpm-alpine
+    #container_name: wp-60sec-fpm
+    depends_on:
+      - db
+    ports:
+      - "9000:9000"
+    volumes:
+      - wp_files:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: "${WORDPRESS_DB_HOST}"
+      WORDPRESS_DB_NAME: "${WORDPRESS_DB_NAME}"
+      WORDPRESS_DB_USER: "${WORDPRESS_DB_USER}"
+      WORDPRESS_DB_PASSWORD: "${WORDPRESS_DB_PASSWORD}"
+    networks:
+      - docker_network
+    ports:
+      - 9000:9000
+    restart: always
+  
+  nginx:
+    container_name: nginx
+    build: requirements/nginx
+    image: nginx:my_nginx
+    #image: nginx:latest
+    depends_on: 
+      - wordpress
+    networks:
+      - docker_network
+    ports:
+      - "443:443"
+      - "8085:80"
+    volumes:
+      #- ./conf.d/:/etc/nginx/conf.d
+      #- wp_files:/usr/share/nginx/html
+      - wp_files:/var/www/html
+    restart: always
+
+networks:
+  docker_network:
+
+volumes: 
+  wp_files:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/leroierrant/data/wordpress
+      o: bind
+  db_data:
