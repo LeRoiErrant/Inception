@@ -49,7 +49,7 @@ services:
       - docker_network
     ports:
       - "443:443"
-      - "8085:80"
+      - "80:80"
     volumes:
       #- ./conf.d/:/etc/nginx/conf.d
       #- wp_files:/usr/share/nginx/html
