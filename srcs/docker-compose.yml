@@ -17,9 +17,9 @@ services:
   
   wordpress:
     container_name: wordpress
-    #build: requirements/wordpress
-    #image: my_wordpress:test
-    image: wordpress:5-fpm-alpine
+    build: requirements/wordpress
+    image: wordpress:my_wordpress
+    #image: wordpress:5-fpm-alpine
     #container_name: wp-60sec-fpm
     depends_on:
       - db
@@ -49,11 +49,9 @@ services:
       - docker_network
     ports:
       - "443:443"
-      - "80:80"
     volumes:
-      #- ./conf.d/:/etc/nginx/conf.d
-      #- wp_files:/usr/share/nginx/html
       - wp_files:/var/www/html
+      #- ./requirements/nginx/conf:/etc/nginx/conf.d
     restart: always
 
 networks:
@@ -64,6 +62,6 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/leroierrant/data/wordpress
+      device: /home/vheran/data/wordpress
       o: bind
   db_data:
