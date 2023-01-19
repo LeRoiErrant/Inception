@@ -17,9 +17,10 @@ services:
   
   wordpress:
     container_name: wordpress
-    build: requirements/wordpress
-    image: wordpress:my_wordpress
-    #image: wordpress:5-fpm-alpine
+    #build: requirements/wordpress
+    #image: wordpress:my_wordpress
+    image: wordpress:5-fpm-alpine
+    #image: wordpress:latest
     #container_name: wp-60sec-fpm
     depends_on:
       - db
@@ -65,3 +66,10 @@ volumes:
       device: "${WORDPRESS_VOLUME_PATH}"
       o: bind
   db_data:
+
+
+
+
+
+
+      
