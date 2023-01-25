@@ -5,7 +5,7 @@ export NOW := $(shell date '+%F_%H:%M:%S')
 
 all:
 	@cd ${DOCK_DIR}; ./get_env.sh
-	docker-compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) up -d --build
+	docker-compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) --env-file srcs/.env up -d --build
 
 down:
 	docker-compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) down -v
