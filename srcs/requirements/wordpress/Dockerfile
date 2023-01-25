@@ -17,7 +17,8 @@ RUN apt-get update && apt-get -y install \
 
 #Copy the necessary tools to download wordpress
 
-COPY ./conf/www.conf /var/www/html/
+RUN rm -rf /etc/php/7.3/fpm/pool.d/www.conf
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 
 #Create the folder to enable php start
 
@@ -26,7 +27,9 @@ RUN mkdir /run/php
 #Launch script
 
 COPY ./tools/create_wordpress.sh /usr/local/bin/
+COPY ./conf/index.php /var/www/html/
 RUN chmod +x /usr/local/bin/create_wordpress.sh
+RUN chmod 777 /var/www/html/index.php
 ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]
 
 WORKDIR /var/www/html/

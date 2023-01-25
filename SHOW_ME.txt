@@ -1,0 +1,5 @@
+/Users/leroierrant/42/Inception-git
+total 16
+-rw-r--r--  1 leroierrant  staff  847 18 jan 12:09 Makefile
+-rw-r--r--  1 leroierrant  staff   36 24 jan 17:16 SHOW_ME.txt
+drwxr-xr-x  8 leroierrant  staff  256 18 jan 11:59 srcs
