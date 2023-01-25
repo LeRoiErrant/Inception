@@ -6,6 +6,7 @@ RUN apt-get update && apt-get -y install \
     wget \
     curl \
     bash \
+    vim \
     php \
     php-cgi \
     php-mysql \
@@ -27,9 +28,9 @@ RUN mkdir /run/php
 #Launch script
 
 COPY ./tools/create_wordpress.sh /usr/local/bin/
-COPY ./conf/index.php /var/www/html/
+COPY ./conf/index.php /
 RUN chmod +x /usr/local/bin/create_wordpress.sh
-RUN chmod 777 /var/www/html/index.php
+
 ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]
 
 WORKDIR /var/www/html/

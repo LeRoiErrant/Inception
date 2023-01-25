@@ -66,4 +66,9 @@ volumes:
       type: none
       device: "${WORDPRESS_VOLUME_PATH}"
       o: bind
-  db_data:
+  db_data: 
+    driver: local
+    driver_opts:
+      type: none
+      device: "${DB_VOLUME_PATH}"
+      o: bind

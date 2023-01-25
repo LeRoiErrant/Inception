@@ -5,14 +5,13 @@ then
 	echo "wordpress already downloaded"
 else
 	#Download wordpress
-	pwd >> ./SHOW_ME.txt
 	wget https://wordpress.org/latest.tar.gz
 	tar -xzvf latest.tar.gz
-	#mv /var/www/html/wordpress/* /var/www/html
 	mv wordpress/* .
 	rm -rf latest.tar.gz
 	rm -rf ./wordpress
-	ls -l >> ./SHOW_ME.txt
+	rm -rf index.php
+	mv /index.php .
 
 
 	#Update configuration file
@@ -28,7 +27,6 @@ else
 	sed -i "s/localhost/$WORDPRESS_DB_HOST/g" wp-config-sample.php
 	sed -i "s/database_name_here/$WORDPRESS_DB_DATABASE/g" wp-config-sample.php
 	sed -i '87 s/.*/'"define( 'WP_INSTALLING', true );"'/' wp-config-sample.php
-	echo "define( 'WP_HOME', 'http://example.com' );" >> wp-config-sample.php
 	mv wp-config-sample.php wp-config.php
 fi
 
