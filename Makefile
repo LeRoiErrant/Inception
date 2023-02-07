@@ -28,7 +28,6 @@ clean:
 	docker volume rm $$(docker volume ls -q);\
 	docker network rm $$(docker network ls -q);\
 	rm -rf ./srcs/data/wordpress/*
-	rm -rf ./srcs/data/mariadb/*
 
 git:
 	git add .
