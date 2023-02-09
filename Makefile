@@ -6,7 +6,8 @@ export NOW := $(shell date '+%F_%H:%M:%S')
 all: up
 
 up:
-	@cd ${DOCK_DIR}; ./get_env.sh
+	./get_env.sh
+	mv .env srcs/
 	sudo mkdir -p $(PWD)/data/mariadb/
 	sudo mkdir -p $(PWD)/data/wordpress/
 	sudo echo "127.0.0.1 vheran.42.fr"
@@ -27,11 +28,7 @@ mariadb:
 	@docker exec -it $$(docker ps | grep mariadb | awk '{print $$1}') bash
 
 clean:
-	docker stop $$(docker ps -qa);\
-	docker rm $$(docker ps -qa);\
-	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q);\
+	docker system prune -f
 	rm -rf ./srcs/data/wordpress/*
 
 git:
