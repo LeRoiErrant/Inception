@@ -9,9 +9,9 @@ all: up
 up:
 	@./get_env.sh
 	@mv .env srcs/
-	@if ! cd /home/vheran/data/mariadb; then sudo mkdir -p /home/vheran/data/mariadb/; fi
-	@if ! cd /home/vheran/data/wordpress; then sudo mkdir -p /home/vheran/data/wordpress/; fi
-	@if ! grep -Fxq $(MY_HOST) /etc/hosts; then sudo chmod 777 /etc/hosts; echo $(MY_HOST) >> /etc/hosts; sudo chmod 744 /etc/hosts; fi
+	@if ! cd /home/vheran/data/mariadb 2>/dev/null; then sudo mkdir -p /home/vheran/data/mariadb/; fi
+	@if ! cd /home/vheran/data/wordpress 2>/dev/null; then sudo mkdir -p /home/vheran/data/wordpress/; fi
+	@if ! grep -Fxq $(MY_HOST) /etc/hosts; then sudo echo $(MY_HOST) >> /etc/hosts; fi
 	docker compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) --env-file srcs/.env up -d --build
 
 down:
@@ -30,7 +30,6 @@ mariadb:
 
 clean:
 	docker system prune -f
-	rm -rf ./srcs/data/wordpress/*
 
 git:
 	git add .
