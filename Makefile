@@ -5,9 +5,7 @@ export NOW := $(shell date '+%F_%H:%M:%S')
 
 all: up
 
-up:
-	./get_env.sh
-	mv .env srcs/
+up: set_env
 	sudo mkdir -p $(PWD)/data/mariadb/
 	sudo mkdir -p $(PWD)/data/wordpress/
 	sudo echo "127.0.0.1 vheran.42.fr"
@@ -26,6 +24,10 @@ wordpress:
 
 mariadb:
 	@docker exec -it $$(docker ps | grep mariadb | awk '{print $$1}') bash
+
+set_env:
+	./get_env.sh
+	mv .env srcs/
 
 clean:
 	docker system prune -f
