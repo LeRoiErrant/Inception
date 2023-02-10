@@ -8,11 +8,13 @@ EXPOSE 9000
 #https://www.digitalocean.com/community/tutorials/php-fpm-nginx
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d
-COPY ./tools/ /var/www/
+COPY ./tools/ /usr/local/bin/
 
-RUN chmod +x /var/www/create_wordpress.sh
+RUN chmod +x /usr/local/bin/create_wordpress.sh
 
-ENTRYPOINT ["/var/www/create_wordpress.sh"]
+ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]
+
+WORKDIR /var/www/
 
 CMD ["/usr/sbin/php-fpm7.3", "--nodaemonize"]
 

@@ -11,7 +11,7 @@ up:
 	sudo mkdir -p $(PWD)/data/mariadb/
 	sudo mkdir -p $(PWD)/data/wordpress/
 	sudo echo "127.0.0.1 vheran.42.fr"
-	docker-compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) --env-file srcs/.env up -d --build
+	docker compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) --env-file srcs/.env up -d --build
 
 down:
 	docker-compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) down -v
