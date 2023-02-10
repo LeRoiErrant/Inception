@@ -1,6 +1,14 @@
 #!/bin/bash
-WORDPRESS_VOLUME_PATH=$(pwd)/data/wordpress
-DB_VOLUME_PATH=$(pwd)/data/mariadb
+
+if [[ $STATE = "test" ]]
+then
+	WORDPRESS_VOLUME_PATH=$(pwd)/data/wordpress
+	DB_VOLUME_PATH=$(pwd)/data/mariadb
+else
+	WORDPRESS_VOLUME_PATH=/home/vheran/data/wordpress
+	DB_VOLUME_PATH=/home/vheran/data/mariadb
+fi
+
 
 cat .env_sample > .env
 
