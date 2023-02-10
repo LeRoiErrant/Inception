@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Start BASH SCRIPT" > my_bashLog.txt
-#while ! mysql -h $MYSQL_HOST -u $MYSQL_USER -p $MYSQL_PASSWORD $WORDPRESS_DB_NAME &>my_bashLog.txt; do
-#	sleep 3
-#	echo "Sleeping" >> my_bashLog.txt
-#done
+env > /tmp/test
+while ! mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $WORDPRESS_DB_NAME &>/dev/null; do
+	sleep 3
+	echo "Sleeping" >> my_bashLog.txt
+done
 
 echo "Awaken" > my_bashLog.txt
 
@@ -18,7 +19,6 @@ else
 	echo "Trying to DL" > my_bashLog.txt
 	chown -R www-data:www-data /var/www/*
 	chmod -R 755 /var/www/*
-	rm -rf html
 	mkdir -p /var/www/html
 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 	chmod +x wp-cli.phar

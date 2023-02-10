@@ -10,7 +10,7 @@ up:
 	mv .env srcs/
 	sudo mkdir -p $(PWD)/data/mariadb/
 	sudo mkdir -p $(PWD)/data/wordpress/
-	sudo echo "127.0.0.1 vheran.42.fr"
+	echo "127.0.0.1 vheran.42.fr" >> /etc/hosts
 	docker compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) --env-file srcs/.env up -d --build
 
 down:

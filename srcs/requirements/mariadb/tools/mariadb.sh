@@ -1,42 +1,17 @@
 #!/bin/sh
 
-mysql_install_db
 
-/etc/init.d/mysql start
+#Create user
+cat << EOF > /tmp/init_db.sql
+CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
+CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
+GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
+FLUSH PRIVILEGES;
+EOF
 
-#Check if the database exists
+mysql -h localhost < /tmp/init_db.sql
 
-if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]
-then 
+#sed -i '/^bind-address/c\bindaddress=0.0.0.0' /etc/mysql/mariadb.conf.d/50-server.cnf
 
-	echo "Database already exists"
-else
 
-# Set root option so that connexion without root password is not possible
-
-mysql_secure_installation <<_EOF_
-
-Y
-root4life
-root4life
-Y
-n
-Y
-Y
-_EOF_
-
-#Add a root user on 127.0.0.1 to allow remote connexion
-
-	echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
-
-#Create database and user for wordpress
-	echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
-
-#Import database
-mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql
-
-fi
-
-/etc/init.d/mysql stop
-
-exec "$@"
