@@ -10,6 +10,7 @@ services:
        - MYSQL_USER=${MYSQL_USER}
        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    image: mariadb:my_mariadb
     env_file:
       - .env
     volumes:
@@ -21,6 +22,7 @@ services:
   wordpress:
     container_name: wordpress
     build: requirements/wordpress
+    image: wordpress:my_wordpress
     depends_on:
       - mariadb
     volumes:
@@ -34,6 +36,7 @@ services:
   nginx:
     container_name: nginx
     build: requirements/nginx
+    image: nginx:my_nginx
     env_file:
       - .env
     depends_on: 
