@@ -4,14 +4,16 @@ DOCK_DIR = srcs
 export NOW := $(shell date '+%F_%H:%M:%S')
 export MY_HOST:= "127.0.0.1 vheran.42.fr"
 
-all: up
+all: init_env up
 
-up:
+init_env:
 	@./get_env.sh
 	@mv .env srcs/
 	@if ! cd /home/vheran/data/mariadb 2>/dev/null; then sudo mkdir -p /home/vheran/data/mariadb/; fi
 	@if ! cd /home/vheran/data/wordpress 2>/dev/null; then sudo mkdir -p /home/vheran/data/wordpress/; fi
 	@if ! grep -Fxq $(MY_HOST) /etc/hosts; then sudo chmod 777 /etc/hosts; echo $(MY_HOST) >> /etc/hosts; sudo chmod 744 /etc/hosts; fi
+	
+up:
 	docker compose -f $(PWD)/$(DOCK_DIR)/$(DOCK_FIL) --env-file srcs/.env up -d --build
 
 down:
